@@ -1,0 +1,780 @@
+---------------------------STACK--------------------------------
+
+package Stack_Examples;
+
+import java.util.Scanner;
+
+public class Stack_Menu {
+
+    static class Stack_Class {
+        int stack[], maxSize, tos;
+
+        void createStack(int size) {
+            maxSize = size;
+            stack = new int[size];
+            tos = -1;
+        }
+
+        boolean isFull() {
+            return tos == maxSize - 1;
+        }
+
+        boolean isEmpty() {
+            return tos == -1;
+        }
+
+        void push(int e) {
+            if (!isFull()) {
+                stack[++tos] = e;
+            } else {
+                System.out.println("Stack is Full");
+            }
+        }
+
+        int pop() {
+            return stack[tos--];
+        }
+
+        int peek() {
+            return stack[tos];
+        }
+
+        void printStack() {
+            for (int i = tos; i >= 0; i--) {
+                System.out.println(stack[i]);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Stack_Class obj = new Stack_Class();
+
+        System.out.print("Enter stack size: ");
+        int size = sc.nextInt();
+        obj.createStack(size);
+
+        int choice, e;
+
+        do {
+            System.out.println("\n1. Push");
+            System.out.println("2. Pop");
+            System.out.println("3. Peek");
+            System.out.println("4. Print Stack");
+            System.out.println("0. Exit");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter element: ");
+                    e = sc.nextInt();
+                    obj.push(e);
+                    break;
+
+                case 2:
+                    if (obj.isEmpty())
+                        System.out.println("Stack is Empty");
+                    else
+                        System.out.println("Deleted: " + obj.pop());
+                    break;
+
+                case 3:
+                    if (obj.isEmpty())
+                        System.out.println("Stack is Empty");
+                    else
+                        System.out.println("Top: " + obj.peek());
+                    break;
+
+                case 4:
+                    if (obj.isEmpty())
+                        System.out.println("Stack is Empty");
+                    else
+                        obj.printStack();
+                    break;
+
+                case 0:
+                    System.out.println("Exiting...");
+                    break;
+
+                default:
+                    System.out.println("Wrong choice!");
+            }
+
+        } while (choice != 0);
+
+        sc.close();
+    }
+}
+
+
+
+--------------------------QUEUE------------------------------
+
+
+package Queue_Examples;
+
+import java.util.Scanner;
+
+public class Queue_Class
+{
+    int queue[], MaxSize, front, rear;
+
+    void createQueue(int size)
+    {
+        MaxSize = size;
+        rear = -1;
+        front = 0;
+        queue = new int[MaxSize];
+    }
+
+    void enqueue(int e)
+    {
+        if (is_full())
+            System.out.println("Queue is full");
+        else
+            queue[++rear] = e;
+    }
+
+    boolean is_full()
+    {
+        return rear == MaxSize - 1;
+    }
+
+    int dequeue()
+    {
+        return queue[front++];
+    }
+
+    boolean is_empty()
+    {
+        return front > rear;
+    }
+
+    void print_queue()
+    {
+        if (is_empty())
+        {
+            System.out.println("Queue is empty");
+            return;
+        }
+
+        for (int i = front; i <= rear; i++)
+            System.out.print(queue[i] + " - ");
+
+        System.out.println();
+    }
+
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+
+        Queue_Class q = new Queue_Class();
+
+        System.out.print("Enter Queue Size: ");
+        int size = sc.nextInt();
+
+        q.createQueue(size);
+
+        int choice, element;
+
+        do
+        {
+            System.out.println("\n1. Enqueue");
+            System.out.println("2. Dequeue");
+            System.out.println("3. Print Queue");
+            System.out.println("4. Exit");
+            System.out.print("Enter Choice: ");
+
+            choice = sc.nextInt();
+
+            switch (choice)
+            {
+                case 1:
+                    System.out.print("Enter Element: ");
+                    element = sc.nextInt();
+                    q.enqueue(element);
+                    break;
+
+                case 2:
+                    if (q.is_empty())
+                        System.out.println("Queue is empty");
+                    else
+                        System.out.println("Deleted Element: " + q.dequeue());
+                    break;
+
+                case 3:
+                    q.print_queue();
+                    break;
+
+                case 4:
+                    System.out.println("Program Ended");
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice");
+            }
+
+        } while (choice != 4);
+
+        sc.close();
+    }
+}
+
+
+-------------------------LINKED LIST-------------------------
+
+package Linked_List;
+import java.util.Scanner;
+
+public class practisee
+{
+    static class Node
+    {
+        int data;
+        Node next;
+
+        Node(int data)
+        {
+            this.data = data;
+            next = null;
+        }
+    }
+
+    static class Linear_Linked_List
+    {
+        Node root;
+
+        void insert_left(int data)
+        {
+            Node n = new Node(data);
+
+            if (root == null)
+                root = n;
+            else
+            {
+                n.next = root;
+                root = n;
+            }
+        }
+
+        void insert_right(int data)
+        {
+            Node n = new Node(data);
+
+            if (root == null)
+                root = n;
+            else
+            {
+                Node t = root;
+
+                while (t.next != null)
+                    t = t.next;
+
+                t.next = n;
+            }
+        }
+
+        void delete_left()
+        {
+            if (root == null)
+                System.out.println("Empty list");
+            else
+            {
+                Node t = root;
+                root = root.next;
+
+                System.out.println("Deleted: " + t.data);
+            }
+        }
+
+        void delete_right()
+        {
+            if (root == null)
+                System.out.println("Empty list");
+            else
+            {
+                Node t = root;
+                Node t2 = root;
+
+                while (t.next != null)
+                {
+                    t2 = t;
+                    t = t.next;
+                }
+
+                if (root.next == null)
+                    root = null;
+                else
+                    t2.next = null;
+
+                System.out.println("Deleted: " + t.data);
+            }
+        }
+
+        void insert_after(int ref, int data)
+        {
+            if (root == null)
+            {
+                System.out.println("Empty list");
+                return;
+            }
+
+            Node t = root;
+
+            while (t != null)
+            {
+                if (t.data == ref)
+                {
+                    Node n = new Node(data);
+                    n.next = t.next;
+                    t.next = n;
+                    return;
+                }
+
+                t = t.next;
+            }
+
+            System.out.println(ref + " Not found");
+        }
+
+        void delete_element(int element)
+        {
+            Node t = root;
+            Node t2 = null;
+
+            while (t != null)
+            {
+                if (t.data == element)
+                {
+                    if (t == root)
+                        root = root.next;
+                    else
+                        t2.next = t.next;
+
+                    System.out.println(element + " deleted");
+                    return;
+                }
+
+                t2 = t;
+                t = t.next;
+            }
+
+            System.out.println(element + " Not found");
+        }
+
+        boolean search_list(int key)
+        {
+            Node t = root;
+
+            while (t != null)
+            {
+                if (t.data == key)
+                    return true;
+
+                t = t.next;
+            }
+
+            return false;
+        }
+
+        void print_list()
+        {
+            if (root == null)
+            {
+                System.out.println("Empty list");
+                return;
+            }
+
+            Node t = root;
+
+            System.out.println("Elements are:");
+
+            while (t != null)
+            {
+                System.out.print("|" + t.data + "|->");
+                t = t.next;
+            }
+
+            System.out.println("null");
+        }
+    }
+
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        Linear_Linked_List l = new Linear_Linked_List();
+
+        int choice, data, ref;
+
+        do
+        {
+            System.out.println("\n--- LINEAR LINKED LIST MENU ---");
+            System.out.println("1. Insert Left");
+            System.out.println("2. Insert Right");
+            System.out.println("3. Delete Left");
+            System.out.println("4. Delete Right");
+            System.out.println("5. Insert After");
+            System.out.println("6. Delete Specific Element");
+            System.out.println("7. Search Element");
+            System.out.println("8. Print List");
+            System.out.println("0. Exit");
+
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice)
+            {
+                case 1:
+                    System.out.print("Enter data: ");
+                    data = sc.nextInt();
+                    l.insert_left(data);
+                    break;
+
+                case 2:
+                    System.out.print("Enter data: ");
+                    data = sc.nextInt();
+                    l.insert_right(data);
+                    break;
+
+                case 3:
+                    l.delete_left();
+                    break;
+
+                case 4:
+                    l.delete_right();
+                    break;
+
+                case 5:
+                    System.out.print("Enter reference element: ");
+                    ref = sc.nextInt();
+
+                    System.out.print("Enter new data: ");
+                    data = sc.nextInt();
+
+                    l.insert_after(ref, data);
+                    break;
+
+                case 6:
+                    System.out.print("Enter element to delete: ");
+                    data = sc.nextInt();
+                    l.delete_element(data);
+                    break;
+
+                case 7:
+                    System.out.print("Enter element to search: ");
+                    data = sc.nextInt();
+
+                    if (l.search_list(data))
+                        System.out.println(data + " Found");
+                    else
+                        System.out.println(data + " Not Found");
+                    break;
+
+                case 8:
+                    l.print_list();
+                    break;
+
+                case 0:
+                    System.out.println("Exiting program...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 0);
+
+        sc.close();
+    }
+}
+
+
+
+------------------------DOUBLY LINKEDLIST--------------------------
+
+
+import java.util.Scanner;
+
+public class DoublyLinkedList {
+
+    static class Node {
+        int data;
+        Node prev, next;
+
+        Node(int data) {
+            this.data = data;
+            prev = null;
+            next = null;
+        }
+    }
+
+    Node head, tail;
+
+    void insert(int data) {
+        Node n = new Node(data);
+
+        if (head == null) {
+            head = tail = n;
+        } else {
+            tail.next = n;
+            n.prev = tail;
+            tail = n;
+        }
+
+        System.out.println("Node inserted.");
+    }
+
+    void delete(int data) {
+        Node temp = head;
+
+        while (temp != null && temp.data != data) {
+            temp = temp.next;
+        }
+
+        if (temp == null) {
+            System.out.println("Node not found.");
+            return;
+        }
+
+        if (temp == head)
+            head = temp.next;
+        if (temp == tail)
+            tail = temp.prev;
+
+        if (temp.prev != null)
+            temp.prev.next = temp.next;
+        if (temp.next != null)
+            temp.next.prev = temp.prev;
+
+        System.out.println("Node deleted.");
+    }
+
+    void displayForward() {
+        Node temp = head;
+
+        while (temp != null) {
+            System.out.print(temp.data + " <-> ");
+            temp = temp.next;
+        }
+
+        System.out.println("null");
+    }
+
+    void displayBackward() {
+        Node temp = tail;
+
+        while (temp != null) {
+            System.out.print(temp.data + " <-> ");
+            temp = temp.prev;
+        }
+
+        System.out.println("null");
+    }
+
+    void search(int data) {
+        Node temp = head;
+
+        while (temp != null) {
+            if (temp.data == data) {
+                System.out.println("Node found.");
+                return;
+            }
+            temp = temp.next;
+        }
+
+        System.out.println("Node not found.");
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        DoublyLinkedList list = new DoublyLinkedList();
+
+        int choice, data;
+
+        do {
+            System.out.println("\n--- DOUBLY LINKED LIST ---");
+            System.out.println("1. Insert");
+            System.out.println("2. Delete");
+            System.out.println("3. Display Forward");
+            System.out.println("4. Display Backward");
+            System.out.println("5. Search");
+            System.out.println("6. Exit");
+            System.out.print("Enter choice: ");
+
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter data: ");
+                    data = sc.nextInt();
+                    list.insert(data);
+                    break;
+
+                case 2:
+                    System.out.print("Enter data to delete: ");
+                    data = sc.nextInt();
+                    list.delete(data);
+                    break;
+
+                case 3:
+                    list.displayForward();
+                    break;
+
+                case 4:
+                    list.displayBackward();
+                    break;
+
+                case 5:
+                    System.out.print("Enter data to search: ");
+                    data = sc.nextInt();
+                    list.search(data);
+                    break;
+
+                case 6:
+                    System.out.println("Program ended.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice.");
+            }
+
+        } while (choice != 6);
+
+        sc.close();
+    }
+}
+
+
+
+-------------------------------TREE--------------------------------
+
+package Tree_Example;
+
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int data)
+    {
+        this.data = data;
+    }
+}
+
+public class Tree_Class
+{
+    Node root;
+
+    void insert(Node r, Node n)
+    {
+        if (root == null)
+            root = n;
+        else if (n.data < r.data)
+        {
+            if (r.left == null)
+                r.left = n;
+            else
+                insert(r.left, n);
+        }
+        else
+        {
+            if (r.right == null)
+                r.right = n;
+            else
+                insert(r.right, n);
+        }
+    }
+
+    void inorder(Node r)
+    {
+        if (r != null)
+        {
+            inorder(r.left);
+            System.out.print(r.data + ",");
+            inorder(r.right);
+        }
+    }
+
+    void preorder(Node r)
+    {
+        if (r != null)
+        {
+            System.out.print(r.data + ",");
+            preorder(r.left);
+            preorder(r.right);
+        }
+    }
+
+    void postorder(Node r)
+    {
+        if (r != null)
+        {
+            postorder(r.left);
+            postorder(r.right);
+            System.out.print(r.data + ",");
+        }
+    }
+
+    int count_node(Node r)
+    {
+        if (r == null)
+            return 0;
+
+        return 1 + count_node(r.left)
+                 + count_node(r.right);
+    }
+
+    int count_leaf_node(Node r)
+    {
+        if (r == null)
+            return 0;
+
+        if (r.left == null && r.right == null)
+            return 1;
+
+        return count_leaf_node(r.left)
+             + count_leaf_node(r.right);
+    }
+
+    int depth(Node r)
+    {
+        if (r == null)
+            return 0;
+
+        int left_depth = depth(r.left);
+        int right_depth = depth(r.right);
+
+        return 1 + Math.max(left_depth, right_depth);
+    }
+
+    public static void main(String[] args)
+    {
+        Tree_Class obj = new Tree_Class();
+
+        obj.insert(obj.root, new Node(5));
+        obj.insert(obj.root, new Node(10));
+        obj.insert(obj.root, new Node(20));
+        obj.insert(obj.root, new Node(15));
+        obj.insert(obj.root, new Node(30));
+        obj.insert(obj.root, new Node(1));
+
+        System.out.print("Inorder: ");
+        obj.inorder(obj.root);
+
+        System.out.print("\nPreorder: ");
+        obj.preorder(obj.root);
+
+        System.out.print("\nPostorder: ");
+        obj.postorder(obj.root);
+
+        System.out.println("\nTotal nodes: "
+                + obj.count_node(obj.root));
+
+        System.out.println("Leaf nodes: "
+                + obj.count_leaf_node(obj.root));
+
+        System.out.println("Depth: "
+                + (obj.depth(obj.root) - 1));
+    }
+}
