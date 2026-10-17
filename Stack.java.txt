@@ -1,0 +1,106 @@
+package Stack_Examples;
+
+import java.util.Scanner;
+
+public class Stack_Menu {
+
+    static class Stack_Class {
+        int stack[], maxSize, tos;
+
+        void createStack(int size) {
+            maxSize = size;
+            stack = new int[size];
+            tos = -1;
+        }
+
+        boolean isFull() {
+            return tos == maxSize - 1;
+        }
+
+        boolean isEmpty() {
+            return tos == -1;
+        }
+
+        void push(int e) {
+            if (!isFull()) {
+                stack[++tos] = e;
+            } else {
+                System.out.println("Stack is Full");
+            }
+        }
+
+        int pop() {
+            return stack[tos--];
+        }
+
+        int peek() {
+            return stack[tos];
+        }
+
+        void printStack() {
+            for (int i = tos; i >= 0; i--) {
+                System.out.println(stack[i]);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Stack_Class obj = new Stack_Class();
+
+        System.out.print("Enter stack size: ");
+        int size = sc.nextInt();
+        obj.createStack(size);
+
+        int choice, e;
+
+        do {
+            System.out.println("\n1. Push");
+            System.out.println("2. Pop");
+            System.out.println("3. Peek");
+            System.out.println("4. Print Stack");
+            System.out.println("0. Exit");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter element: ");
+                    e = sc.nextInt();
+                    obj.push(e);
+                    break;
+
+                case 2:
+                    if (obj.isEmpty())
+                        System.out.println("Stack is Empty");
+                    else
+                        System.out.println("Deleted: " + obj.pop());
+                    break;
+
+                case 3:
+                    if (obj.isEmpty())
+                        System.out.println("Stack is Empty");
+                    else
+                        System.out.println("Top: " + obj.peek());
+                    break;
+
+                case 4:
+                    if (obj.isEmpty())
+                        System.out.println("Stack is Empty");
+                    else
+                        obj.printStack();
+                    break;
+
+                case 0:
+                    System.out.println("Exiting...");
+                    break;
+
+                default:
+                    System.out.println("Wrong choice!");
+            }
+
+        } while (choice != 0);
+
+        sc.close();
+    }
+}

@@ -1,0 +1,108 @@
+package Queue_Examples;
+
+import java.util.Scanner;
+
+public class Queue_Class
+{
+    int queue[], MaxSize, front, rear;
+
+    void createQueue(int size)
+    {
+        MaxSize = size;
+        rear = -1;
+        front = 0;
+        queue = new int[MaxSize];
+    }
+
+    void enqueue(int e)
+    {
+        if (is_full())
+            System.out.println("Queue is full");
+        else
+            queue[++rear] = e;
+    }
+
+    boolean is_full()
+    {
+        return rear == MaxSize - 1;
+    }
+
+    int dequeue()
+    {
+        return queue[front++];
+    }
+
+    boolean is_empty()
+    {
+        return front > rear;
+    }
+
+    void print_queue()
+    {
+        if (is_empty())
+        {
+            System.out.println("Queue is empty");
+            return;
+        }
+
+        for (int i = front; i <= rear; i++)
+            System.out.print(queue[i] + " - ");
+
+        System.out.println();
+    }
+
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+
+        Queue_Class q = new Queue_Class();
+
+        System.out.print("Enter Queue Size: ");
+        int size = sc.nextInt();
+
+        q.createQueue(size);
+
+        int choice, element;
+
+        do
+        {
+            System.out.println("\n1. Enqueue");
+            System.out.println("2. Dequeue");
+            System.out.println("3. Print Queue");
+            System.out.println("4. Exit");
+            System.out.print("Enter Choice: ");
+
+            choice = sc.nextInt();
+
+            switch (choice)
+            {
+                case 1:
+                    System.out.print("Enter Element: ");
+                    element = sc.nextInt();
+                    q.enqueue(element);
+                    break;
+
+                case 2:
+                    if (q.is_empty())
+                        System.out.println("Queue is empty");
+                    else
+                        System.out.println("Deleted Element: " + q.dequeue());
+                    break;
+
+                case 3:
+                    q.print_queue();
+                    break;
+
+                case 4:
+                    System.out.println("Program Ended");
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice");
+            }
+
+        } while (choice != 4);
+
+        sc.close();
+    }
+}

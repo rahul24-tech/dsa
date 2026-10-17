@@ -1,0 +1,264 @@
+package Linked_List;
+import java.util.Scanner;
+
+public class practisee
+{
+    static class Node
+    {
+        int data;
+        Node next;
+
+        Node(int data)
+        {
+            this.data = data;
+            next = null;
+        }
+    }
+
+    static class Linear_Linked_List
+    {
+        Node root;
+
+        void insert_left(int data)
+        {
+            Node n = new Node(data);
+
+            if (root == null)
+                root = n;
+            else
+            {
+                n.next = root;
+                root = n;
+            }
+        }
+
+        void insert_right(int data)
+        {
+            Node n = new Node(data);
+
+            if (root == null)
+                root = n;
+            else
+            {
+                Node t = root;
+
+                while (t.next != null)
+                    t = t.next;
+
+                t.next = n;
+            }
+        }
+
+        void delete_left()
+        {
+            if (root == null)
+                System.out.println("Empty list");
+            else
+            {
+                Node t = root;
+                root = root.next;
+
+                System.out.println("Deleted: " + t.data);
+            }
+        }
+
+        void delete_right()
+        {
+            if (root == null)
+                System.out.println("Empty list");
+            else
+            {
+                Node t = root;
+                Node t2 = root;
+
+                while (t.next != null)
+                {
+                    t2 = t;
+                    t = t.next;
+                }
+
+                if (root.next == null)
+                    root = null;
+                else
+                    t2.next = null;
+
+                System.out.println("Deleted: " + t.data);
+            }
+        }
+
+        void insert_after(int ref, int data)
+        {
+            if (root == null)
+            {
+                System.out.println("Empty list");
+                return;
+            }
+
+            Node t = root;
+
+            while (t != null)
+            {
+                if (t.data == ref)
+                {
+                    Node n = new Node(data);
+                    n.next = t.next;
+                    t.next = n;
+                    return;
+                }
+
+                t = t.next;
+            }
+
+            System.out.println(ref + " Not found");
+        }
+
+        void delete_element(int element)
+        {
+            Node t = root;
+            Node t2 = null;
+
+            while (t != null)
+            {
+                if (t.data == element)
+                {
+                    if (t == root)
+                        root = root.next;
+                    else
+                        t2.next = t.next;
+
+                    System.out.println(element + " deleted");
+                    return;
+                }
+
+                t2 = t;
+                t = t.next;
+            }
+
+            System.out.println(element + " Not found");
+        }
+
+        boolean search_list(int key)
+        {
+            Node t = root;
+
+            while (t != null)
+            {
+                if (t.data == key)
+                    return true;
+
+                t = t.next;
+            }
+
+            return false;
+        }
+
+        void print_list()
+        {
+            if (root == null)
+            {
+                System.out.println("Empty list");
+                return;
+            }
+
+            Node t = root;
+
+            System.out.println("Elements are:");
+
+            while (t != null)
+            {
+                System.out.print("|" + t.data + "|->");
+                t = t.next;
+            }
+
+            System.out.println("null");
+        }
+    }
+
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        Linear_Linked_List l = new Linear_Linked_List();
+
+        int choice, data, ref;
+
+        do
+        {
+            System.out.println("\n--- LINEAR LINKED LIST MENU ---");
+            System.out.println("1. Insert Left");
+            System.out.println("2. Insert Right");
+            System.out.println("3. Delete Left");
+            System.out.println("4. Delete Right");
+            System.out.println("5. Insert After");
+            System.out.println("6. Delete Specific Element");
+            System.out.println("7. Search Element");
+            System.out.println("8. Print List");
+            System.out.println("0. Exit");
+
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice)
+            {
+                case 1:
+                    System.out.print("Enter data: ");
+                    data = sc.nextInt();
+                    l.insert_left(data);
+                    break;
+
+                case 2:
+                    System.out.print("Enter data: ");
+                    data = sc.nextInt();
+                    l.insert_right(data);
+                    break;
+
+                case 3:
+                    l.delete_left();
+                    break;
+
+                case 4:
+                    l.delete_right();
+                    break;
+
+                case 5:
+                    System.out.print("Enter reference element: ");
+                    ref = sc.nextInt();
+
+                    System.out.print("Enter new data: ");
+                    data = sc.nextInt();
+
+                    l.insert_after(ref, data);
+                    break;
+
+                case 6:
+                    System.out.print("Enter element to delete: ");
+                    data = sc.nextInt();
+                    l.delete_element(data);
+                    break;
+
+                case 7:
+                    System.out.print("Enter element to search: ");
+                    data = sc.nextInt();
+
+                    if (l.search_list(data))
+                        System.out.println(data + " Found");
+                    else
+                        System.out.println(data + " Not Found");
+                    break;
+
+                case 8:
+                    l.print_list();
+                    break;
+
+                case 0:
+                    System.out.println("Exiting program...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 0);
+
+        sc.close();
+    }
+}
