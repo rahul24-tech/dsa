@@ -1,0 +1,301 @@
+1. Stack Using Arrays
+This implementation handles StackOverflowException and StackUnderflowException concepts by checking if the array is full or empty.
+
+
+public class ArrayStack {
+    private int[] stack;
+    private int top;
+    private int capacity;
+
+    public ArrayStack(int size) {
+        capacity = size;
+        stack = new int[capacity];
+        top = -1;
+    }
+
+    public void push(int item) {
+        if (top == capacity - 1) {
+            System.out.println("Stack Overflow! Cannot push " + item);
+            return;
+        }
+        stack[++top] = item;
+    }
+
+    public int pop() {
+        if (top == -1) {
+            System.out.println("Stack Underflow! Stack is empty.");
+            return -1; // Or throw an exception
+        }
+        return stack[top--];
+    }
+}
+
+
+
+2. Circular Queue Using Arrays
+Circular queues reuse empty spaces at the front. The critical logic here is the modulo operator % to wrap around the array.
+
+public class CircularQueue {
+    private int[] queue;
+    private int front, rear, size, capacity;
+
+    public CircularQueue(int cap) {
+        capacity = cap;
+        queue = new int[capacity];
+        front = -1;
+        rear = -1;
+        size = 0;
+    }
+
+    public void enqueue(int item) {
+        if (size == capacity) {
+            System.out.println("Queue Overflow! Cannot enqueue " + item);
+            return;
+        }
+        if (front == -1) front = 0; // Initialize front on first insert
+        
+        rear = (rear + 1) % capacity;
+        queue[rear] = item;
+        size++;
+    }
+
+    public int dequeue() {
+        if (size == 0) {
+            System.out.println("Queue Underflow! Queue is empty.");
+            return -1;
+        }
+        int item = queue[front];
+        if (front == rear) { // Reset if it was the last element
+            front = -1;
+            rear = -1;
+        } else {
+            front = (front + 1) % capacity;
+        }
+        size--;
+        return item;
+    }
+} 
+
+
+
+
+3. Reversing a Singly Linked ListThis requires manipulating three pointers (prev, current, and next) to reverse the direction of the links without losing the rest of the list.Java
+
+class Node {
+    int data;
+    Node next;
+    Node(int data) { this.data = data; this.next = null; }
+}
+
+public class LinkedList {
+    Node head;
+
+    public void reverse() {
+        Node prev = null;
+        Node current = head;
+        Node next = null;
+
+        while (current != null) {
+            next = current.next;  // Store next node
+            current.next = prev;  // Reverse current node's pointer
+            prev = current;       // Move pointers one position ahead
+            current = next;
+        }
+        head = prev; // Update head to the last processed node
+      }
+}
+
+
+
+4. Inserting a Node into a Binary Search Tree (BST)   The logic ensures values smaller than the root go to the left subtree, and larger values go to the right subtree.   
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) { this.val = val; left = right = null; }
+}
+
+public class BST {
+    TreeNode root;
+
+    public void insert(int key) {
+        root = insertRec(root, key);
+    }
+
+    private TreeNode insertRec(TreeNode root, int key) {
+        // Base case: tree is empty or we reached a leaf
+        if (root == null) {
+            root = new TreeNode(key);
+            return root;
+        }
+        // Recursive calls
+        if (key < root.val) {
+            root.left = insertRec(root.left, key);
+        } else if (key > root.val) {
+            root.right = insertRec(root.right, key);
+        }
+        // Return the unchanged node pointer
+        return root;
+    }
+}
+
+
+
+
+5. Insertion Sort
+Insertion sort builds the sorted array one element at a time, shifting larger elements to the right to make space for the current item.
+
+
+public class Sorting {
+    public static void insertionSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 1; i < n; ++i) {
+            int key = arr[i];
+            int j = i - 1;
+
+            // Move elements of arr[0..i-1] that are greater than key
+            // to one position ahead of their current position
+            while (j >= 0 && arr[j] > key) {
+                arr[j + 1] = arr[j];
+                j = j - 1;
+            }
+            arr[j + 1] = key;
+        }
+    }
+}
+
+
+Stack: Balanced Parentheses Check
+Problem: Given a string containing only the characters '(', ')', '{', '}', '[', and ']', determine if the input string is valid. An input string is valid if open brackets are closed by the same type of brackets and in the correct order.
+Algorithm: Use a stack to keep track of opening brackets encountered. When you encounter a closing bracket, check if the top of the stack is the corresponding opening bracket. If it is, pop the stack; if not, or if the stack is empty, the string is unbalanced.
+
+
+import java.util.Stack;
+
+public class BalancedBrackets {
+    public static boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        
+        for (char c : s.toCharArray()) {
+            if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+            } else {
+                if (stack.isEmpty()) return false;
+                char top = stack.pop();
+                if ((c == ')' && top != '(') || 
+                    (c == '}' && top != '{') || 
+                    (c == ']' && top != '[')) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+}
+
+
+
+2. LinkedList: Reverse a LinkedListProblem: Given the head of a singly linked list, reverse the list in-place without using extra space proportional to the length of the list.
+Algorithm: Initialize prev to None and current to head. While current is not None, store the next node of current, set the next pointer of current to prev, move prev to current, and move current to the stored next node. After the loop, prev will be the new head of the reversed list.   
+
+
+
+class Node {
+    int data;
+    Node next;
+    Node(int data) { this.data = data; this.next = null; }
+}
+
+public class ReverseLinkedList {
+    public Node reverseList(Node head) {
+        Node prev = null;
+        Node current = head;
+        Node nextNode = null;
+        
+        while (current != null) {
+            nextNode = current.next; // Store next node
+            current.next = prev;     // Reverse the link
+            prev = current;          // Move prev forward
+            current = nextNode;      // Move current forward
+        }
+        return prev; // prev is the new head
+    }
+}
+
+
+
+3. Queue: Implement Queue using Stacks
+Problem: Implement a queue data structure using two stacks. You should support standard queue operations: enqueue, dequeue, peek, and isEmpty.
+Algorithm: Use two stacks, stack1 and stack2. To enqueue an element, simply push it onto stack1. To dequeue, if stack2 is empty, transfer all elements from stack1 to stack2 one by one, which reverses their order. Once stack2 is not empty, pop and return its top element.
+
+
+
+import java.util.Stack;
+
+public class QueueUsingStacks {
+    private Stack<Integer> stack1 = new Stack<>();
+    private Stack<Integer> stack2 = new Stack<>();
+
+    public void enqueue(int x) {
+        stack1.push(x);
+    }
+
+    public int dequeue() {
+        if (stack2.isEmpty()) {
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+        }
+        return stack2.pop();
+    }
+
+    public int peek() {
+        if (stack2.isEmpty()) {
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+        }
+        return stack2.peek();
+    }
+
+    public boolean isEmpty() {
+        return stack1.isEmpty() && stack2.isEmpty();
+    }
+}
+
+
+
+
+4. Tree: Maximum Depth of Binary Tree
+Problem: Given the root of a binary tree, find its maximum depth, which is the number of nodes along the longest path from the root node down to the farthest leaf node.
+Algorithm (DFS Recursive): If the root is None, the depth is 0. Recursively find the depth of the left subtree and the depth of the right subtree. The maximum depth of the current tree is 1 plus the maximum of the left depth and right depth.
+
+
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) { val = x; }
+}
+
+public class TreeDepth {
+    public int maxDepth(TreeNode root) {
+        // Base case
+        if (root == null) {
+            return 0;
+        }
+        
+        // Recursive step
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        
+        // Return 1 + maximum of the two depths
+        return 1 + Math.max(leftDepth, rightDepth);
+    }
+}
+
+
+
+
+
